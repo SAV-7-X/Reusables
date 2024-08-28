@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Livewire;
+
+use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+class UpdateProfile extends Component
+{
+    public $name;
+    public $email;
+    public $current_password;
+    public $new_password;
+    public $new_password_confirmation;
+
+    public function mount()
+    {
+        $user = Auth::user();
+        $this->name = $user->name;
+        $this->email = $user->email;
+    }
+
+    public function updateProfile()
+    {
+        $validatedData = $this->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . Auth::id(),
+            'current_password' => 'required_with:new_password',
+            'new_password' => 'nullable|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        if ($this->current_password) {
+            if (!Hash::check($this->current_password, $user->password)) {
+                $this->addError('current_password', 'The provided password does not match your current password.');
+                return;
+            }
+        }
+
+        $user->name = $validatedData['name'];
+        $user->email = $validatedData['email'];
+
+        if ($this->new_password) {
+            $user->password = Hash::make($this->new_password);
+        }
+
+        $user->save();
+
+        session()->flash('message', 'Profile updated successfully.');
+    }
+
+    public function render()
+    {
+        return view('livewire.update-profile');
+    }
+}
+
+// {{-- Make sure to bind the input fields with the public properties --}}
+
+// {{-- Use wire:click="updateProfile" to submit the update request --}}
+
+// {{-- To display success message:
+    @if (session()->has('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif --}}
+
+// {{-- Use wire:loading wire:target="updateProfile" to show a spinner while updating --}}
