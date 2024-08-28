@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Livewire;
+
+use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+
+class DeleteAccount extends Component
+{
+    public $password;
+
+    public function deleteAccount()
+    {
+        $this->validate([
+            'password' => 'required',
+        ]);
+
+        $user = Auth::user();
+
+        if (Hash::check($this->password, $user->password)) {
+            $user->delete();
+            Auth::logout();
+            return redirect()->to('/');
+        }
+
+        $this->addError('password', 'The provided password is incorrect.');
+    }
+
+    public function render()
+    {
+        return view('livewire.delete-account');
+    }
+}
+
+// {{-- Use a confirmation dialog before deletion:
+    <button wire:click="$emit('confirmDelete')">Delete Account</button>
+
+    @push('scripts')
+    <script>
+        Livewire.on('confirmDelete', () => {
+            if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                @this.call('deleteAccount')
+            }
+        })
+    </script>
+    @endpush --}}
+
+// {{-- Make sure to bind the password input with the public property --}}
+
+// {{-- Use wire:loading wire:target="deleteAccount" to show a spinner while deleting --}}
