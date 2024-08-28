@@ -1,0 +1,9 @@
+use App\Http\Controllers\AuthController;
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+//protected routes 
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::put('/update', [AuthController::class, 'update']);
+    Route::delete('/delete', [AuthController::class, 'delete']);
