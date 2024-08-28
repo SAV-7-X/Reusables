@@ -1,0 +1,100 @@
+// Register
+async function register(userData) {
+    try {
+        const response = await fetch('http://your-api-url/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(userData),
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Registration failed');
+        return data;
+    } catch (error) {
+        console.error('Registration error:', error);
+        throw error;
+    }
+}
+
+// Login
+async function login(credentials) {
+    try {
+        const response = await fetch('http://your-api-url/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(credentials),
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Login failed');
+        return data;
+    } catch (error) {
+        console.error('Login error:', error);
+        throw error;
+    }
+}
+
+// Update Profile
+async function updateProfile(userData, token) {
+    try {
+        const response = await fetch('http://your-api-url/api/update', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(userData),
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Update failed');
+        return data;
+    } catch (error) {
+        console.error('Update error:', error);
+        throw error;
+    }
+}
+
+// Logout
+async function logout(token) {
+    try {
+        const response = await fetch('http://your-api-url/api/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Logout failed');
+        return data;
+    } catch (error) {
+        console.error('Logout error:', error);
+        throw error;
+    }
+}
+
+// Delete Account
+async function deleteAccount(token) {
+    try {
+        const response = await fetch('http://your-api-url/api/delete', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Account deletion failed');
+        return data;
+    } catch (error) {
+        console.error('Delete account error:', error);
+        throw error;
+    }
+}
