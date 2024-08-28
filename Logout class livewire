@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Livewire;
+
+use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+
+class Logout extends Component
+{
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->to('/');
+    }
+
+    public function render()
+    {
+        return view('livewire.logout');
+    }
+}
+
+// {{-- Use wire:click="logout" on a button or link to trigger the logout --}}
+
+// {{-- You can add a confirmation dialog if needed:
+    <button wire:click="$emit('confirmLogout')">Logout</button>
+
+    @push('scripts')
+    <script>
+        Livewire.on('confirmLogout', () => {
+            if (confirm('Are you sure you want to logout?')) {
+                @this.call('logout')
+            }
+        })
+    </script>
+    @endpush --}}
+
+// {{-- Use wire:loading wire:target="logout" to show a spinner while logging out --}}
