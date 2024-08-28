@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Livewire;
+
+use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+
+class Login extends Component
+{
+    public $email;
+    public $password;
+    public $remember = false;
+
+    public function login()
+    {
+        $validatedData = $this->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+            return redirect()->intended('/dashboard');
+        }
+
+        $this->addError('email', 'These credentials do not match our records.');
+    }
+
+    public function render()
+    {
+        return view('livewire.login')
+                ->layout('components.layouts.auth');
+    }
+}
+
+// {{-- This content will change according to you, The code to remain same is here --}}
+
+// {{-- To access the error, use:
+    @error('email') 
+        <span class="text-red-600 my-2 text-center text-wrap">*{{$message}}</span>
+    @enderror --}}
+
+// {{-- Make sure to bind the input fields with the public properties ex - email and password --}}
+
+// {{-- Make sure to use wire:click to submit the request --}}
+
+// {{-- Use this --> $this->isLoggedIn = Auth::check(); to check the authentication, and don't forget to use the auth facade --}}
+
+// {{-- Use wire:loading wire:target="login" to show a spinner while the process is going on --}}
