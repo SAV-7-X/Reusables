@@ -1,0 +1,74 @@
+<div class="wrapper">
+    <h2>Registration</h2>
+    <form wire:submit.prevent="register">
+        <div class="input-box">
+            <input wire:model="name" type="text" placeholder="Enter your name">
+        </div>
+        @error('name')
+        <span class="text-red-600 my-2 text-center text-wrap">*{{$message}}</span>    
+        @enderror
+
+        <div class="input-box">
+            <input wire:model="email" type="text" placeholder="Enter your email">
+        </div>
+        @error('email')
+        <span class="text-red-600 my-2 text-center text-wrap">*{{$message}}</span>    
+        @enderror
+
+        <div class="input-box">
+            <input type="password" wire:model="password" placeholder="Create password">
+        </div>
+        @error('password')
+        <span class="text-red-600 my-2 text-center text-wrap">*{{$message}}</span>    
+        @enderror
+
+        <div class="input-box">
+            <input type="password" wire:model="password_confirmation" name="password_confirmation" placeholder="Confirm password">
+        </div>
+
+        <div class="policy">
+            <input type="checkbox">
+            <h3>I accept all terms & condition</h3>
+        </div>
+
+        <!-- Spinner: This will show when the form is submitting -->
+        <div wire:loading wire:target="register" class="spinner">
+            <div class="loading"></div>
+        </div>
+
+        <div class="input-box button">
+            <input type="submit" value="Register Now">
+        </div>
+
+        <div class="text">
+            <h3>Already have an account? <a href="#">Login now</a></h3>
+        </div>
+    </form>
+</div>
+
+{{-- This content will change according to you, The code to remain same is here  --}}
+
+
+{{-- -----------------------------------><--------------------------------------------------- --}}
+
+{{-- To access the error ,    @error('input-field-name')
+<span class="text-red-600 my-2 text-center text-wrap">*{{$message}}</span>    
+@enderror --}}
+
+
+{{-- -----------------------------------><--------------------------------------------------- --}}
+
+{{-- Make sure to bind the input fields with the public properties ex - name and email --}}
+
+{{-- -----------------------------------><--------------------------------------------------- --}}
+{{-- -----------------------------------><--------------------------------------------------- --}}
+
+{{-- Make sure to use wire click to submit the request  --}}
+
+{{-- -----------------------------------><--------------------------------------------------- --}}
+
+{{-- Use this --> $this->isLoggedIn = Auth::check(); to check the authentication , and dont forget to use the auth facade --}}
+
+{{-- -----------------------------------><--------------------------------------------------- --}}
+
+{{-- Use wire:loading wire:target="function" to show a spinner while the process is going on   --}}
